@@ -1,0 +1,150 @@
+\chapter{Arbitrage Theory}
+
+\section{Financial Models in Discrete Time}
+
+\begin{defi} 
+Inputs:
+\begin{enumerate}
+    \item Stocks: $S_t^i(\omega) :=$ price at time $t=0, \ldots, T$ for stock $i=1, \ldots, d$ in scenario $\omega\in \Omega$. $S_t$ is $\mathcal F_t$-measurable.
+    \item Bonds: mathematically similar, except that, e. g. its value at maturity $T$ is known from the beginning.
+    \item Bank accounts: money invested "earns" interest (can be negative) at a pre-announced rate $r_t(\omega)$; a predictable process; assume $-1<r_t$ is $\mathcal F_{t-1}$-measurable.
+    \item $\mathcal F_t$ = "information available up to time $t$"; mathematical a $\sigma$-field, s. t. $\mathcal F_{t-1}\subseteq \mathcal F_t$.
+\end{enumerate}
+\end{defi}
+
+\begin{defi}
+Outputs:
+Information on the prices and risks of derivatives.
+\end{defi}
+
+\begin{ex}
+"Call option on a strike" = the right, but not obligation to buy a certain stock at a certain future time for a pre-agreed time, called \textbf{strike price}
+\end{ex}
+
+\begin{defi}\index{Financial model}
+A \textbf{financial model} is a filtered probability space $(\Omega, \mathcal F, (\mathcal F_t), \bb P)$, along with a non-negative stochastic process $\overline S = (S_t^0, \ldots, S_t^d)_{t=0, \ldots, T}$, such that $S_t:= (S_t^1, \ldots, S_t^d)$  is adapted and $S_t^0$ is predictable.
+\end{defi}
+
+\begin{defi}\index{Trading strategy}
+A \textbf{trading strategy} is a $\mathbb R^{d+1}$ valued, predictable stochastic process $\overline \xi = (\xi_t^0, \ldots, \xi_t^d)_t = (\xi^0, \xi)$, specifying how many securities of type $i=0,\ldots, d$ we hold over each period $t-1\leadsto t$.
+\end{defi}
+
+\begin{rem}\index{Portfolio}
+$\overline \xi_t$ is also called the \textbf{portfolio}, respectively \textbf{position}, hold over $t=1,\ldots, T$. The value of a portfolio at time $t-1$ is 
+$$\sum_{i=0}^d \xi_t^i S_{t-i}^i = \overline \xi_t\cdot \overline S_{t-1}$$
+and at time $t$ it is
+$$\sum_{i=0}^d \xi_t^i S_{t}^i = \overline \xi_t\cdot \overline S_{t}.$$
+\end{rem}
+
+\subsection{Profit and Loss (P\&L, PnL)}
+
+\begin{rem}
+We tacitly assume that absence of transaction costs, taxes, and most importantly, that our choice of strategy $\overline \xi$ does not affect the prices of securities $\overline S$.
+\end{rem}
+
+\begin{defi}\index{Profit and Loss}
+The \textbf{Profit and Loss} of a trading strategy $\overline \xi$ at time $t$ is given by $\overline \xi_t(\overline S_t-\overline S_{t-1})$.
+\end{defi}
+
+\begin{defi}\index{self-financing}
+A trading strategy $\overline \xi$ is called \textbf{self-financing}, if 
+$$\overline\xi_t\cdot \overline S_t = \overline \xi_{t+1}\cdot \overline S_t,$$
+in other words, self-financing strategies do neither add nor withdraw funds as they progress in time.
+\end{defi}
+
+\begin{rem}
+Negative trading strategies are allowed, i.e. $\xi_t^i<0$, whereby $i=0$ can be seen as borrowing money, $i=1,\ldots, d$ as short selling.
+\end{rem}
+
+\begin{rem}
+Key assumption on reasonable financial models: there are no risk-less wins, i.e. no arbitrage.
+\end{rem}
+
+\begin{defi}\index{Arbitrage}
+A self-financing strategy $\overline \xi$ is an \textbf{arbitrage} (opportunity), if the following conditions hold:
+\begin{enumerate}
+    \item $\overline \xi_1 \overline S_0\leq 0$ (i.e. no initial investment $>0$).
+    \item $\overline \xi_T \overline S_T\geq 0$ (i.e. no risk).
+    \item $\mathbb P[\overline \xi_T \overline S_T>0] >0$.
+\end{enumerate}
+\end{defi}
+
+\begin{prob}Key questions:
+\begin{enumerate}
+    \item How to tell that a model does not allow for arbitrage? 
+    \item What are the mathematical consequnences of this assumption?
+\end{enumerate}
+\end{prob}
+
+\begin{rem}
+1st consequence: let $\overline \xi$ be a self-financing strategy that has no arbitrage. Then the following holds $\mathbb P$-a.s.
+$$S_0^i =0 \Rightarrow S_t^i=0\quad\forall t=1,\ldots T.$$
+\end{rem}
+
+\begin{proof}
+Fix $t_0\in\{1,\ldots,T\}$. Consider the strategy
+\begin{equation*}
+\overline \xi_t := 
+\begin{cases}
+(0,\ldots, 0, 1, \ldots, 0) =: \overline e_i,\quad &t=0, \ldots, t_0-1\\
+(S_{t_0}^i/S_{t_0}^i, 0, \ldots, 0), & t=t_0.
+\end{cases}
+\end{equation*}
+Then $\overline \xi$ is a self-financing strategy with $\overline \xi_1 \overline S_0 = S_0^i = 0$ and $\overline \xi_T \overline S_T = \frac{S_{t_0}^i}{S_{t_0}^0}\cdot S_T^0\geq 0$ $\mathbb P$-a.s. Since the model is no arbitrage by assumption, $\mathbb P[\overline \xi_T \overline S_T]=0$ must hold. Thus $\mathbb P[S_{t_0}^i>0]=0$, i.e. $S_t^i=0$ $\mathbb P$-a.s.
+\end{proof}
+
+\begin{agr}
+For a first approach to \ref{} and \ref{} we make the following simpyfying asusmptions:
+\begin{enumerate}
+    \item The financial model only opens for 1 period, i.e. $T=1$.
+    \item $\mathcal F_0$ is trivial, i.e. $\mathcal F_0=\{\emptyset, \Omega\}$.
+\end{enumerate}
+In particular, we have $\overline S_0\in \mathbb R^{d+1}$ and $\overline \xi_1\in \mathbb R^{d+1}$. The only random component thus is the $\mathcal F$-measurable random variable $\overline S_1$.
+\end{agr}
+
+\begin{nota}
+We use the following notation for the simplyfied financial model from above:
+$$\overline \pi := (1,\pi) := \overline S_0 ,\quad \overline S:= \overline S_1, \quad r:= \frac{S^0 - \pi^0}{\pi^0}\in (-1, \infty).$$
+\end{nota}
+
+\section{Martingale Measure in 1-Period Model}
+
+\begin{rem}
+The \textbf{Fundamental Theorem of Asset Pricing} (\textbf{FTAP}) answers the question whether a model does not allow for arbitrage.
+\end{rem}
+
+\begin{ftheo}[FTAP]\index{Fundamental theorem of asset pricing}
+A financial model does not allow for arbitrage, if and only if there exists an equivalent martingale measure.
+\end{ftheo}
+
+\begin{defi}\index{Martingale measure}
+A probability measure $\mathbb P^*$ on a measure space $(\Omega, \mathcal F)$ is called a \textbf{martingale measure} for the one-period financial model $(\overline \pi, \overline S)$, if
+$$\pi^i = \mathbb E\Bigg[\frac{S^i}{1+r}\Bigg].$$
+\end{defi}
+
+\begin{nota}
+Let $\mathcal P$ denote the set of all martingale measures $\mathbb P^*$, which are, in addition, equivalent.
+\end{nota}
+
+\begin{defi}\index{equivalent}
+Two probability measure $\mathbb Q_0,\mathbb Q_1$ on $(\Omega, \mathcal F)$ are called \textbf{equivalent}, $\mathbb Q_0\cong \mathbb Q_1$, if they have the same null sets, i.e.
+$$\mathbb Q_0[A]=0 \Longleftrightarrow \mathbb Q_1[A]= 0,\quad \forall A\in\mathcal F.$$
+\end{defi}
+
+\begin{defi}\index{absolutely continuous}
+A probability measure $\mathbb Q_0$ is \textbf{absolutley continuous} wrt. $\mathbb Q_1$, write $\mathbb Q_0<< \mathbb Q_1$, if 
+$$\mathbb Q_0[A] \Leftarrow \mathbb Q_1[A],\quad \forall A\in\mathcal F.$$
+\end{defi}
+
+\begin{remin}[Radon-Nikodym]\index{Radon-Nikodym}
+Let $\mathbb Q_0,\mathbb Q_1$ be two probability measure on $(\Omega, \mathcal F)$. Then the following properties hold:
+\begin{enumerate}
+    \item $\mathbb Q_0<<\mathbb Q_1$, iff there exists a density of $\mathbb Q_0$ wrt. $\mathbb Q_1$, i.e. $\frac{d\mathbb Q_0}{d\mathbb Q_1}\in L^1(\mathbb Q_1)$ s.t. $\mathbb Q_0[A] = \int_A\frac{d\mathbb Q_0}{d\mathbb Q_1} d\mathbb Q_1$ for all $A\in\mathcal F$.
+    \item $\mathbb Q_0\cong \mathbb Q_1$, iff there exists a density of $\mathbb Q_0$ wrt. $\mathbb Q_1$ which is, in addition, strictly positive, i.e. $\frac{d\mathbb Q_0}{d\mathbb Q_1}>0$. 
+\end{enumerate}
+\end{remin}
+
+\begin{proof}[Proof of the FTAP, 1-period case]
+$\Leftarrow$: Let $\mathcal P\neq \emptyset$, i.e. there exists an equivalent martingale measure $\mathbb P^*\in\mathcal P$ and suppose that there exists an arbitrage opportunity $\overline \xi$. 
+\end{proof}
+
